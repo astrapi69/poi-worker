@@ -14,8 +14,7 @@
 
 # Overview
 
-Repository for read and write excel documents.  A small documentation how to use this template project in in the
-[wiki](https://github.com/astrapi69/poi-worker/wiki)
+Repository for read and write excel documents.  
 
 > Please support this project by simply putting a Github <!-- Place this tag where you want the button to render. -->
 <a class="github-button" href="https://github.com/astrapi69/poi-worker" data-icon="octicon-star" aria-label="Star astrapi69/poi-worker on GitHub">Star ⭐</a>

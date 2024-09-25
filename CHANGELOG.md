@@ -1,12 +1,13 @@
 ## Change log
 ----------------------
 
-Version 1-SNAPSHOT
+Version 5.0-SNAPSHOT
 -------------
 
-ADDED:
+CHANGED:
 
-- new CHANGELOG.md file created
-
-Notable links:
-[keep a changelog](http://keepachangelog.com/en/1.0.0/) Don’t let your friends dump git logs into changelogs
+- repository owner
+- update to jdk version 21
+- update of gradle to new version 8.10.2
+- update of dependency lombok to new version 1.18.34
+- update of dependency poi to new version 5.3.0

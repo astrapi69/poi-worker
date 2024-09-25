@@ -1,34 +1,28 @@
 
 <div style="text-align: center">
 
-[![Java CI with Gradle](https://github.com/astrapi69/java-library-template/actions/workflows/gradle.yml/badge.svg)](https://github.com/astrapi69/java-library-template/actions/workflows/gradle.yml)
-[![Coverage Status](https://codecov.io/gh/astrapi69/java-library-template/branch/develop/graph/badge.svg)](https://codecov.io/gh/astrapi69/java-library-template)
-[![Open Issues](https://img.shields.io/github/issues/astrapi69/java-library-template.svg?style=flat)](https://github.com/astrapi69/java-library-template/issues)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/java-library-template/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/java-library-template)
-[![Javadocs](http://www.javadoc.io/badge/io.github.astrapi69/java-library-template.svg)](http://www.javadoc.io/doc/io.github.astrapi69/java-library-template)
+[![Java CI with Gradle](https://github.com/astrapi69/poi-worker/actions/workflows/gradle.yml/badge.svg)](https://github.com/astrapi69/poi-worker/actions/workflows/gradle.yml)
+[![Coverage Status](https://codecov.io/gh/astrapi69/poi-worker/branch/develop/graph/badge.svg)](https://codecov.io/gh/astrapi69/poi-worker)
+[![Open Issues](https://img.shields.io/github/issues/astrapi69/poi-worker.svg?style=flat)](https://github.com/astrapi69/poi-worker/issues)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/poi-worker/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/poi-worker)
+[![Javadocs](http://www.javadoc.io/badge/io.github.astrapi69/poi-worker.svg)](http://www.javadoc.io/doc/io.github.astrapi69/poi-worker)
 [![MIT License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](http://opensource.org/licenses/MIT)
 [![Donate](https://img.shields.io/badge/donate-❤-ff2244.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GVBTWLRAZ7HB8)
-[![Hits Of Code](https://hitsofcode.com/github/astrapi69/java-library-template?branch=develop)](https://hitsofcode.com/github/astrapi69/java-library-template/view?branch=develop)
+[![Hits Of Code](https://hitsofcode.com/github/astrapi69/poi-worker?branch=develop)](https://hitsofcode.com/github/astrapi69/poi-worker/view?branch=develop)
 
 </div>
 
 # Overview
 
-Template project for create java library projects.  A small documentation how to use this template project in in the
-[wiki](https://github.com/astrapi69/java-library-template/wiki)
+Repository for read and write excel documents.  A small documentation how to use this template project in in the
+[wiki](https://github.com/astrapi69/poi-worker/wiki)
 
 > Please support this project by simply putting a Github <!-- Place this tag where you want the button to render. -->
-<a class="github-button" href="https://github.com/astrapi69/java-library-template" data-icon="octicon-star" aria-label="Star astrapi69/java-library-template on GitHub">Star ⭐</a>
+<a class="github-button" href="https://github.com/astrapi69/poi-worker" data-icon="octicon-star" aria-label="Star astrapi69/poi-worker on GitHub">Star ⭐</a>
 >
 > Share this library with friends on Twitter and everywhere else you can
 >
 > If you love this project [![donation](https://img.shields.io/badge/donate-❤-ff2244.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GVBTWLRAZ7HB8)
-
-# Template from this project
-
-You can derive your java library project from this you can easily and adapt to your specific project if you follow the
-instruction from
-this [medium blog](https://asterios-raptis.medium.com/new-github-template-repository-feature-ec09afe261b8)
 
 ## Note
 
@@ -36,7 +30,7 @@ No animals were harmed in the making of this library.
 
 ## License
 
-The source code comes under the liberal MIT License, making java-library-template great for all types of applications.
+The source code comes under the liberal MIT License, making poi-worker great for all types of applications.
 
 ## Import dependencies to your project
 
@@ -46,27 +40,27 @@ The source code comes under the liberal MIT License, making java-library-templat
 ## gradle dependency
 
 Replace the variable ${latestVersion} with the current latest
-version: [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/java-library-template/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/java-library-template)
+version: [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/poi-worker/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/poi-worker)
 
 You can first define the version in the ext section and add than the following gradle dependency to
-your project `build.gradle` if you want to import the core functionality of java-library-template:
+your project `build.gradle` if you want to import the core functionality of poi-worker:
 
 define version in file gradle.properties
 
 ```
-javaLibraryTemplateVersion=${latestVersion}
+poiWorkerVersion=${latestVersion}
 ```
 
 or in build.gradle ext area
 
 ```
-    javaLibraryTemplateVersion = "${latestVersion}"
+    poiWorkerVersion = "${latestVersion}"
 ```
 
 then add the dependency to the dependencies area
 
 ```
-    implementation("io.github.astrapi69:java-library-template:$javaLibraryTemplateVersion")
+    implementation("io.github.astrapi69:poi-worker:$poiWorkerVersion")
 ```
 
 # with new libs.versions.toml file
@@ -77,19 +71,19 @@ If you use the new libs.versions.toml file for new automatic catalog versions up
 [versions]
 ```
 ```
-java-library-template-version= "${latestVersion}"
+poi-worker-version= "${latestVersion}"
 ```
 ```
 [libraries]
 ```
 ```
-java-library-template = { module = "io.github.astrapi69:java-library-template", version.ref = "java-library-template-version" }
+poi-worker = { module = "io.github.astrapi69:poi-worker", version.ref = "poi-worker-version" }
 ```
 
 then add the dependency to the dependencies area
 
 ```
-    implementation libs.java.library.template
+    implementation libs.poi.worker
 ```
 
 </details>
@@ -101,11 +95,11 @@ then add the dependency to the dependencies area
 
 Maven dependency is now on sonatype.
 Check
-out [sonatype repository](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~java-library-template~~~)
+out [sonatype repository](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~poi-worker~~~)
 for latest snapshots and releases.
 
 Add the following maven dependency to your project `pom.xml` if you want to import the core
-functionality of java-library-template:
+functionality of poi-worker:
 
 Then you can add the dependency to your dependencies:
 
@@ -113,8 +107,8 @@ Then you can add the dependency to your dependencies:
         ...
 
 ```xml
-        <!-- java-library-template version -->
-        <java-library-template.version>${latestVersion}</java-library-template.version>
+        <!-- poi-worker version -->
+        <poi-worker.version>${latestVersion}</poi-worker.version>
 ```
 
         ...
@@ -124,11 +118,11 @@ Then you can add the dependency to your dependencies:
         ...
 
 ```xml
-            <!-- java-library-template DEPENDENCY -->
+            <!-- poi-worker DEPENDENCY -->
             <dependency>
                 <groupId>io.github.astrapi69</groupId>
-                <artifactId>java-library-template</artifactId>
-                <version>${java-library-template.version}</version>
+                <artifactId>poi-worker</artifactId>
+                <version>${poi-worker.version}</version>
             </dependency>
 ```
 
@@ -143,7 +137,7 @@ Then you can add the dependency to your dependencies:
 
 ## 📸 Snapshots
 
-[![Snapshot](https://img.shields.io/badge/dynamic/xml?url=https://oss.sonatype.org/service/local/repositories/snapshots/content/io/github/astrapi69/java-library-template/maven-metadata.xml&label=snapshot&color=red&query=.//versioning/latest)](https://oss.sonatype.org/content/repositories/snapshots/io/github/astrapi69/java-library-template/)
+[![Snapshot](https://img.shields.io/badge/dynamic/xml?url=https://oss.sonatype.org/service/local/repositories/snapshots/content/io/github/astrapi69/poi-worker/maven-metadata.xml&label=snapshot&color=red&query=.//versioning/latest)](https://oss.sonatype.org/content/repositories/snapshots/io/github/astrapi69/poi-worker/)
 
 This section describes how to import snapshot versions into your project.
 Add the following code snippet to your gradle file in the repositories section:
@@ -237,7 +231,7 @@ or over the donation buttons at the top.
 
 ## Semantic Versioning
 
-The versions of java-library-template are maintained with the Semantic Versioning guidelines.
+The versions of poi-worker are maintained with the Semantic Versioning guidelines.
 
 Release version numbers will be incremented in the following format:
 
@@ -252,11 +246,11 @@ You can donate or contribute solve issues or pull request. Every support are wel
 
 ## Want to Help and improve it? ###
 
-The source code for java-library-template are on GitHub. Please feel free to fork and send pull requests!
+The source code for poi-worker are on GitHub. Please feel free to fork and send pull requests!
 
-Create your own fork of [astrapi69/java-library-template/fork](https://github.com/astrapi69/java-library-template/fork)
+Create your own fork of [astrapi69/poi-worker/fork](https://github.com/astrapi69/poi-worker/fork)
 
-To share your changes, [submit a pull request](https://github.com/astrapi69/java-library-template/pull/new/develop).
+To share your changes, [submit a pull request](https://github.com/astrapi69/poi-worker/pull/new/develop).
 
 Don't forget to add new units tests on your changes.
 
@@ -267,28 +261,28 @@ improvements.
 
 ## Contacting the Developers
 
-Do not hesitate to contact the java-library-template developers with your questions, concerns, comments, bug reports, or
+Do not hesitate to contact the poi-worker developers with your questions, concerns, comments, bug reports, or
 feature requests.
 
 - Feature requests, questions and bug reports can be reported at
-  the [issues page](https://github.com/astrapi69/java-library-template/issues).
+  the [issues page](https://github.com/astrapi69/poi-worker/issues).
 
 ## Credits
 
 |**Nexus Sonatype repositories**|
 |     :---:      |
-|[![sonatype repository](https://img.shields.io/nexus/r/https/oss.sonatype.org/io.github.astrapi69/java-library-template.svg?style=for-the-badge)](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~java-library-template~~~)|
+|[![sonatype repository](https://img.shields.io/nexus/r/https/oss.sonatype.org/io.github.astrapi69/poi-worker.svg?style=for-the-badge)](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~poi-worker~~~)|
 |Special thanks to [sonatype repository](https://www.sonatype.com) for providing a free maven repository service for open source projects|
 |     <img width=1000/>     |
 
 |**codecov.io**|
 |     :---:      |
-|[![Coverage Status](https://codecov.io/gh/astrapi69/java-library-template/branch/develop/graph/badge.svg)](https://codecov.io/gh/astrapi69/java-library-template)|
+|[![Coverage Status](https://codecov.io/gh/astrapi69/poi-worker/branch/develop/graph/badge.svg)](https://codecov.io/gh/astrapi69/poi-worker)|
 |Special thanks to [codecov.io](https://codecov.io) for providing a free code coverage for open source projects|
 |     <img width=1000/>     |
 
 |**javadoc.io**|
 |     :---:      |
-|[![Javadocs](http://www.javadoc.io/badge/io.github.astrapi69/java-library-template.svg)](http://www.javadoc.io/doc/io.github.astrapi69/java-library-template)|
+|[![Javadocs](http://www.javadoc.io/badge/io.github.astrapi69/poi-worker.svg)](http://www.javadoc.io/doc/io.github.astrapi69/poi-worker)|
 |Special thanks to [javadoc.io](http://www.javadoc.io) for providing a free javadoc documentation for open source projects|
 |     <img width=1000/>     |

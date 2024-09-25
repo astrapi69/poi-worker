@@ -4,6 +4,10 @@ dependencies {
     annotationProcessor libs.lombok
     testCompileOnly libs.lombok
     testAnnotationProcessor libs.lombok
+
+    implementation libs.jobj.core
+    implementation libs.poi
+    implementation libs.poi.ooxml
     // Note: use of bundles...
     testImplementation libs.bundles.unit.testing
     testRuntimeOnly libs.junit.platform.launcher

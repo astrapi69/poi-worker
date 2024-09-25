@@ -27,6 +27,7 @@ package io.github.astrapisixtynine.poi.excel;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +37,12 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.NumberToTextConverter;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
 /**
@@ -54,6 +57,59 @@ public final class ExportExcelExtensions
 	 */
 	private ExportExcelExtensions()
 	{
+	}
+
+	/**
+	 * Exports the given content to an Excel file.
+	 *
+	 * @param excelFile
+	 *            the file to which the content should be written
+	 * @param headers
+	 *            an array of column headers to be added to the first row of the sheet
+	 * @param content
+	 *            a two-dimensional array of strings representing the content to be added to the
+	 *            sheet
+	 * @param sheetName
+	 *            the name of the sheet to be created
+	 * @throws IOException
+	 *             if an I/O error occurs while writing the file
+	 */
+	public static void exportToExcel(File excelFile, String[] headers, String[][] content,
+		final String sheetName) throws IOException
+	{
+		Workbook workbook = new XSSFWorkbook();
+		Sheet sheet = ExcelPoiFactory.newSheet(workbook, sheetName);
+
+		// Create the header row and set style
+		Row headerRow = sheet.createRow(0);
+		for (int i = 0; i < headers.length; i++)
+		{
+			Cell cell = headerRow.createCell(i);
+			cell.setCellValue(headers[i]);
+			cell.setCellStyle(ExcelPoiFactory.newCellStyle(workbook, "Arial", true, (short)12));
+		}
+
+		// Add content rows
+		for (int i = 0; i < content.length; i++)
+		{
+			Row row = sheet.createRow(i + 1);
+			for (int j = 0; j < content[i].length; j++)
+			{
+				row.createCell(j).setCellValue(content[i][j]);
+			}
+		}
+
+		// Auto-size all columns based on the headers length
+		for (int i = 0; i < headers.length; i++)
+		{
+			sheet.autoSizeColumn(i);
+		}
+
+		// Write the workbook to the file
+		try (FileOutputStream fileOut = new FileOutputStream(excelFile))
+		{
+			workbook.write(fileOut);
+		}
 	}
 
 	/**

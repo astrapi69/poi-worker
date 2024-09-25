@@ -25,9 +25,11 @@
 package io.github.astrapisixtynine.poi.excel;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -44,6 +46,7 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,6 +67,91 @@ public class ExportExcelExtensionsTest
 			{ "3", "c", "%" } };
 	File emptyWorkbook;
 	Workbook workbook;
+	private File testFile;
+
+	/**
+	 * Setup method will be invoked before every unit test method
+	 *
+	 * @throws Exception
+	 *             if an exception occurs
+	 */
+	@BeforeEach
+	protected void setUp() throws Exception
+	{
+		testFile = new File(PathFinder.getSrcTestResourcesDir(), "test-export.xlsx");
+		emptyWorkbook = new File(PathFinder.getSrcTestResourcesDir(), "emptyWorkbook.xls");
+		workbook = ExcelPoiFactory.newHSSFWorkbook(emptyWorkbook);
+	}
+
+	/**
+	 * Tear down method will be invoked after every unit test method
+	 *
+	 * @throws Exception
+	 *             if an exception occurs
+	 */
+	@AfterEach
+	protected void tearDown() throws Exception
+	{
+		emptyWorkbook.deleteOnExit();
+		if (testFile.exists())
+		{
+			testFile.delete();
+		}
+	}
+
+	/**
+	 * Test method for
+	 * {@link ExportExcelExtensions#exportToExcel(File, String[], String[][], String)}
+	 */
+	@Test
+	public void testExportToExcel() throws IOException
+	{
+		// Test data
+		String[] headers = { "Position", "Name", "Adresse", "E-Mail", "Telefon",
+				"Zuständigkeiten" };
+		String[][] content = {
+				{ "Parteivorsitzender", "Max Mustermann", "Musterstraße 1, 71634 Ludwigsburg",
+						"vorstand@bfp-partei.de", "+49 123 456789",
+						"Gesamtleitung, Öffentlichkeitsarbeit" },
+				{ "Stellvertretender Vorsitzender", "Maria Beispiel", "Beispielweg 5, 10115 Berlin",
+						"stellvertretung@bfp-partei.de", "+49 987 654321",
+						"Strategie, Mitgliederbetreuung" },
+				{ "Schatzmeister", "Peter Finanzen", "Finanzgasse 12, 80333 München",
+						"finanzen@bfp-partei.de", "+49 111 222333",
+						"Finanzmanagement, Fundraising" } };
+
+		// Call the method
+		ExportExcelExtensions.exportToExcel(testFile, headers, content, "Vorstandsliste");
+
+		// Verify the file exists
+		assertTrue(testFile.exists());
+
+		// Verify the content of the file
+		try (FileInputStream fis = new FileInputStream(testFile))
+		{
+			Workbook workbook = new XSSFWorkbook(fis);
+			Sheet sheet = workbook.getSheet("Vorstandsliste");
+
+			// Check headers
+			Row headerRow = sheet.getRow(0);
+			assertNotNull(headerRow);
+			for (int i = 0; i < headers.length; i++)
+			{
+				assertEquals(headers[i], headerRow.getCell(i).getStringCellValue());
+			}
+
+			// Check content
+			for (int i = 0; i < content.length; i++)
+			{
+				Row row = sheet.getRow(i + 1);
+				assertNotNull(row);
+				for (int j = 0; j < content[i].length; j++)
+				{
+					assertEquals(content[i][j], row.getCell(j).getStringCellValue());
+				}
+			}
+		}
+	}
 
 	/**
 	 * Creates a workbook with predefined content
@@ -112,31 +200,6 @@ public class ExportExcelExtensionsTest
 			throw e;
 		}
 		return emptyWorkbook;
-	}
-
-	/**
-	 * Setup method will be invoked before every unit test method
-	 *
-	 * @throws Exception
-	 *             if an exception occurs
-	 */
-	@BeforeEach
-	protected void setUp() throws Exception
-	{
-		emptyWorkbook = new File(PathFinder.getSrcTestResourcesDir(), "emptyWorkbook.xls");
-		workbook = ExcelPoiFactory.newHSSFWorkbook(emptyWorkbook);
-	}
-
-	/**
-	 * Tear down method will be invoked after every unit test method
-	 *
-	 * @throws Exception
-	 *             if an exception occurs
-	 */
-	@AfterEach
-	protected void tearDown() throws Exception
-	{
-		emptyWorkbook.deleteOnExit();
 	}
 
 	/**

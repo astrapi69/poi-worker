@@ -23,4 +23,6 @@ module io.github.astrapisixtynine.poi.worker
 	requires io.github.astrapisixtynine.jobj.core;
 	requires org.apache.poi.ooxml;
 	requires org.apache.poi.poi;
+
+	exports io.github.astrapisixtynine.poi.excel;
 }

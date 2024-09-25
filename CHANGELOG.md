@@ -4,6 +4,10 @@
 Version 5.1-SNAPSHOT
 -------------
 
+ADDED:
+
+- export statement for export the main package
+- new method that export the given content to an Excel file
 
 Version 5.0
 -------------

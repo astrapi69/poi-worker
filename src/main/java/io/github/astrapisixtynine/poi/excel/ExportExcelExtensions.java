@@ -43,8 +43,8 @@ import org.apache.poi.ss.util.NumberToTextConverter;
 
 
 /**
- * The class {@link ExportExcelExtensions} provides methods for export excel sheet {@link File}
- * objects
+ * The class {@link ExportExcelExtensions} provides methods to export Excel sheets as {@link File}
+ * objects and perform various operations on them
  */
 public final class ExportExcelExtensions
 {
@@ -89,7 +89,7 @@ public final class ExportExcelExtensions
 	public static Object getCellValue(Cell cell)
 	{
 		Object result = null;
-		if (null == cell)
+		if (cell == null)
 		{
 			return "";
 		}
@@ -123,14 +123,14 @@ public final class ExportExcelExtensions
 	}
 
 	/**
-	 * Exports the given excel sheet {@link File} and return a two dimensonal array which holds the
-	 * sheets and arrays of the rows
+	 * Exports the given Excel sheet {@link File} and returns a two-dimensional array which holds
+	 * the sheets and arrays of the rows
 	 *
 	 * @param excelSheet
-	 *            the excel sheet {@link File}
-	 * @return the a two dimensonal array which holds the sheets and arrays of the rows
+	 *            the Excel sheet {@link File}
+	 * @return a two-dimensional array which holds the sheets and arrays of the rows
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *             Signals that an I/O exception has occurred
 	 * @throws FileNotFoundException
 	 *             Signals that the file was not found
 	 */
@@ -144,17 +144,14 @@ public final class ExportExcelExtensions
 		final List<String[][]> sheetList = new ArrayList<>();
 		for (int sheetNumber = 0; sheetNumber < numberOfSheets; sheetNumber++)
 		{
-			HSSFSheet sheet = null;
-			sheet = wb.getSheetAt(sheetNumber);
+			HSSFSheet sheet = wb.getSheetAt(sheetNumber);
 			final int rows = sheet.getLastRowNum();
-
 			final int columns = sheet.getRow(0).getLastCellNum();
-			String[][] excelSheetInTDArray = null;
-			excelSheetInTDArray = new String[rows + 1][columns];
+			String[][] excelSheetInTDArray = new String[rows + 1][columns];
 			for (int i = 0; i <= rows; i++)
 			{
 				final HSSFRow row = sheet.getRow(i);
-				if (null != row)
+				if (row != null)
 				{
 					for (int j = 0; j < columns; j++)
 					{
@@ -169,7 +166,7 @@ public final class ExportExcelExtensions
 	}
 
 	/**
-	 * Gets the cell value as String from the given {@link Cell} object
+	 * Gets the cell value as a String from the given {@link Cell} object
 	 *
 	 * @param cell
 	 *            the cell
@@ -178,7 +175,7 @@ public final class ExportExcelExtensions
 	public static String getCellValueAsString(Cell cell)
 	{
 		String result = null;
-		if (null == cell)
+		if (cell == null)
 		{
 			return "";
 		}
@@ -212,19 +209,17 @@ public final class ExportExcelExtensions
 	}
 
 	/**
-	 * Exports the given excel sheet {@link File} in a list of lists with the list of the sheets and
-	 * lists of the rows.
+	 * Exports the given Excel sheet {@link File} in a list of lists containing the sheets and lists
+	 * of the rows
 	 *
 	 * @param excelSheet
-	 *            the excel sheet {@link File}
-	 * @return the a list with the sheets and lists of the rows.
+	 *            the Excel sheet {@link File}
+	 * @return a list of lists containing the sheets and lists of the rows
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @throws FileNotFoundException
-	 *             Signals that the file was not found
+	 *             Signals that an I/O exception has occurred
 	 */
 	public static List<List<List<String>>> exportWorkbookAsStringList(final File excelSheet)
-		throws IOException, FileNotFoundException
+		throws IOException
 	{
 		final HSSFWorkbook wb = ReadExcelExtensions.readHSSFWorkbook(excelSheet);
 		return convertToListofLists(wb);
@@ -236,15 +231,14 @@ public final class ExportExcelExtensions
 		final List<List<List<String>>> sl = new ArrayList<>();
 		for (int sheetNumber = 0; sheetNumber < numberOfSheets; sheetNumber++)
 		{
-			HSSFSheet sheet;
-			sheet = wb.getSheetAt(sheetNumber);
+			HSSFSheet sheet = wb.getSheetAt(sheetNumber);
 			final int rows = sheet.getLastRowNum();
 			final int columns = sheet.getRow(0).getLastCellNum();
 			final List<List<String>> excelSheetList = new ArrayList<>();
 			for (int i = 0; i <= rows; i++)
 			{
 				final HSSFRow row = sheet.getRow(i);
-				if (null != row)
+				if (row != null)
 				{
 					final List<String> reihe = new ArrayList<>();
 					for (int j = 0; j < columns; j++)
@@ -261,13 +255,13 @@ public final class ExportExcelExtensions
 	}
 
 	/**
-	 * Replace null cells into empty cells.
+	 * Replaces null cells with empty cells
 	 *
 	 * @param excelSheet
-	 *            the excel sheet
+	 *            the Excel sheet
 	 * @return the HSSF workbook
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *             Signals that an I/O exception has occurred
 	 * @throws FileNotFoundException
 	 *             the file not found exception
 	 */
@@ -279,14 +273,13 @@ public final class ExportExcelExtensions
 		final int numberOfSheets = wb.getNumberOfSheets();
 		for (int sheetNumber = 0; sheetNumber < numberOfSheets; sheetNumber++)
 		{
-			HSSFSheet sheet = null;
-			sheet = wb.getSheetAt(sheetNumber);
+			HSSFSheet sheet = wb.getSheetAt(sheetNumber);
 			final int rows = sheet.getLastRowNum();
 			final int columns = sheet.getRow(0).getLastCellNum();
 			for (int i = 0; i <= rows; i++)
 			{
 				final HSSFRow row = sheet.getRow(i);
-				if (null != row)
+				if (row != null)
 				{
 					for (int j = 0; j < columns; j++)
 					{
@@ -301,5 +294,4 @@ public final class ExportExcelExtensions
 		}
 		return wb;
 	}
-
 }

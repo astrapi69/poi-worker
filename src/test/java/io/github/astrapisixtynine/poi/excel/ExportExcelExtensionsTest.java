@@ -65,13 +65,12 @@ public class ExportExcelExtensionsTest
 	File emptyWorkbook;
 	Workbook workbook;
 
-
 	/**
-	 * Creates the workbook with content.
+	 * Creates a workbook with predefined content
 	 *
-	 * @return the file
+	 * @return the file containing the workbook
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *             if an I/O exception occurs
 	 */
 	private File createWorkbookWithContent() throws IOException
 	{
@@ -104,13 +103,11 @@ public class ExportExcelExtensionsTest
 		cell2 = row.createCell(2);
 		cell2.setCellValue("%");
 
-		try
+		try (OutputStream outputStream = StreamExtensions.getOutputStream(emptyWorkbook))
 		{
-			final OutputStream outputStream = StreamExtensions.getOutputStream(emptyWorkbook);
 			workbook.write(outputStream);
-			outputStream.close();
 		}
-		catch (final IOException e)
+		catch (IOException e)
 		{
 			throw e;
 		}
@@ -118,10 +115,10 @@ public class ExportExcelExtensionsTest
 	}
 
 	/**
-	 * Sets up method will be invoked before every unit test method
+	 * Setup method will be invoked before every unit test method
 	 *
 	 * @throws Exception
-	 *             is thrown if an exception occurs
+	 *             if an exception occurs
 	 */
 	@BeforeEach
 	protected void setUp() throws Exception
@@ -134,7 +131,7 @@ public class ExportExcelExtensionsTest
 	 * Tear down method will be invoked after every unit test method
 	 *
 	 * @throws Exception
-	 *             is thrown if an exception occurs
+	 *             if an exception occurs
 	 */
 	@AfterEach
 	protected void tearDown() throws Exception
@@ -148,7 +145,13 @@ public class ExportExcelExtensionsTest
 	@Test
 	public void testIsEmpty()
 	{
-		// TODO implement...
+		Sheet sheet = workbook.createSheet("TestSheet");
+		Row emptyRow = sheet.createRow(0);
+		assertTrue(ExportExcelExtensions.isEmpty(emptyRow));
+
+		Cell cell = emptyRow.createCell(0);
+		cell.setCellValue("Not Empty");
+		assertTrue(!ExportExcelExtensions.isEmpty(emptyRow));
 	}
 
 	/**
@@ -157,7 +160,15 @@ public class ExportExcelExtensionsTest
 	@Test
 	public void testGetCellValue()
 	{
-		// TODO implement...
+		Sheet sheet = workbook.createSheet("TestSheet");
+		Row row = sheet.createRow(0);
+		Cell cell = row.createCell(0);
+		cell.setCellValue("Test");
+		assertEquals("Test", ExportExcelExtensions.getCellValue(cell));
+
+		cell = row.createCell(1);
+		cell.setCellValue(123.45);
+		assertEquals(123.45, ExportExcelExtensions.getCellValue(cell));
 	}
 
 	/**
@@ -166,7 +177,15 @@ public class ExportExcelExtensionsTest
 	@Test
 	public void testGetCellValueAsString()
 	{
-		// TODO implement...
+		Sheet sheet = workbook.createSheet("TestSheet");
+		Row row = sheet.createRow(0);
+		Cell cell = row.createCell(0);
+		cell.setCellValue("Test");
+		assertEquals("Test", ExportExcelExtensions.getCellValueAsString(cell));
+
+		cell = row.createCell(1);
+		cell.setCellValue(123.45);
+		assertEquals("123.45", ExportExcelExtensions.getCellValueAsString(cell));
 	}
 
 	/**
@@ -264,7 +283,9 @@ public class ExportExcelExtensionsTest
 	 * Test method for {@link ExportExcelExtensions#replaceNullCellsIntoEmptyCells(File)}
 	 *
 	 * @throws IOException
+	 *             Signals that an I/O exception has occurred
 	 * @throws FileNotFoundException
+	 *             Signals that the file was not found
 	 */
 	@Test
 	public void testReplaceNullCellsIntoEmptyCells() throws FileNotFoundException, IOException
@@ -317,16 +338,16 @@ public class ExportExcelExtensionsTest
 
 		sheet = hssfWorkbook.getSheet("Foo");
 
-		// Create cells with null values
+		// Verify cells with null values are replaced
 		for (int i = 0; i < twoDimArray.length; i++)
 		{
 			Row row = sheet.getRow(i + 1);
 			Cell cell = row.getCell(0);
-			assertEquals(cell.getStringCellValue(), "");
+			assertEquals("", cell.getStringCellValue());
 			cell = row.getCell(1);
-			assertEquals(cell.getStringCellValue(), "");
+			assertEquals("", cell.getStringCellValue());
 			cell = row.getCell(2);
-			assertEquals(cell.getStringCellValue(), "");
+			assertEquals("", cell.getStringCellValue());
 		}
 	}
 

@@ -8,6 +8,7 @@ ADDED:
 
 - export statement for export the main package
 - new method that export the given content to an Excel file
+- new factory method for create a SXSSFWorkbook object
 
 Version 5.0
 -------------

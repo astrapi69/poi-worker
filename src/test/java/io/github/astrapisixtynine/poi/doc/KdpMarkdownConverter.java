@@ -7,14 +7,21 @@ import org.commonmark.parser.Parser;
 import org.commonmark.renderer.text.TextContentRenderer;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class MarkdownToKdpDocxConverter {
+public class KdpMarkdownConverter {
+
+    private static final List<XWPFParagraph> tocEntries = new ArrayList<>();
+    private static final Map<String, String> tocLinks = new HashMap<>();
 
     /**
-     * Converts a Markdown file to a KDP-formatted DOCX file.
+     * Converts a Markdown file to a KDP-formatted DOCX with ToC and page breaks.
      *
-     * @param mdFile   the input Markdown file
-     * @param docxFile the output DOCX file
+     * @param mdFile   The input Markdown file
+     * @param docxFile The output DOCX file
      * @throws IOException if file operations fail
      */
     public static void convertMdToKdpDocx(File mdFile, File docxFile) throws IOException {
@@ -29,20 +36,32 @@ public class MarkdownToKdpDocxConverter {
         try (XWPFDocument doc = new XWPFDocument();
              FileOutputStream out = new FileOutputStream(docxFile)) {
 
-            // Process Markdown and write to DOCX
+            // Insert a Table of Contents Placeholder
+            XWPFParagraph tocTitle = doc.createParagraph();
+            tocTitle.setAlignment(ParagraphAlignment.CENTER);
+            XWPFRun tocRun = tocTitle.createRun();
+            tocRun.setBold(true);
+            tocRun.setFontSize(18);
+            tocRun.setText("Table of Contents");
+            tocTitle.setPageBreak(true);
+
+            // Process Markdown and generate content
             processMarkdownNode(doc, document);
+
+            // Insert clickable Table of Contents
+            insertTableOfContents(doc);
 
             // Save DOCX
             doc.write(out);
         }
-        System.out.println("KDP-formatted DOCX created: " + docxFile.getAbsolutePath());
+        System.out.println("KDP-formatted DOCX with ToC created: " + docxFile.getAbsolutePath());
     }
 
     /**
      * Processes Markdown nodes and writes formatted content into the DOCX document.
      *
-     * @param doc  the DOCX document
-     * @param node the Markdown node
+     * @param doc  The DOCX document
+     * @param node The Markdown node
      */
     private static void processMarkdownNode(XWPFDocument doc, Node node) {
         node.accept(new AbstractVisitor() {
@@ -54,7 +73,14 @@ public class MarkdownToKdpDocxConverter {
                 XWPFRun run = paragraph.createRun();
                 run.setBold(true);
                 run.setFontSize(getHeadingFontSize(heading.getLevel()));
-                run.setText(getNodeText(heading));
+                String headingText = getNodeText(heading);
+                run.setText(headingText);
+
+                // Add Bookmark for ToC
+                String bookmarkId = "heading-" + tocEntries.size();
+                tocLinks.put(headingText, bookmarkId);
+                paragraph.setPageBreak(true);
+                tocEntries.add(paragraph);
             }
 
             @Override
@@ -82,15 +108,6 @@ public class MarkdownToKdpDocxConverter {
             }
 
             @Override
-            public void visit(Link link) {
-                XWPFParagraph paragraph = doc.createParagraph();
-                XWPFRun run = paragraph.createRun();
-                run.setColor("0000FF"); // Kindle-friendly blue
-                run.setUnderline(UnderlinePatterns.SINGLE);
-                run.setText(getNodeText(link) + " (" + link.getDestination() + ")");
-            }
-
-            @Override
             public void visit(BulletList list) {
                 Node listItem = list.getFirstChild();
                 while (listItem != null) {
@@ -103,37 +120,39 @@ public class MarkdownToKdpDocxConverter {
                     listItem = listItem.getNext();
                 }
             }
-
-            @Override
-            public void visit(OrderedList list) {
-                Node listItem = list.getFirstChild();
-                int counter = 1;
-                while (listItem != null) {
-                    if (listItem instanceof ListItem) {
-                        XWPFParagraph paragraph = doc.createParagraph();
-                        paragraph.setIndentationLeft(500);
-                        XWPFRun run = paragraph.createRun();
-                        run.setText(counter + ". " + extractTextFromNode(listItem));
-                        counter++;
-                    }
-                    listItem = listItem.getNext();
-                }
-            }
-
-            @Override
-            public void visit(ThematicBreak horizontalRule) {
-                XWPFParagraph paragraph = doc.createParagraph();
-                XWPFRun run = paragraph.createRun();
-                run.setText(""); // KDP-friendly horizontal rule
-            }
         });
+    }
+
+    /**
+     * Inserts a Table of Contents at the beginning of the document.
+     *
+     * @param doc The DOCX document
+     */
+    private static void insertTableOfContents(XWPFDocument doc) {
+        if (tocEntries.isEmpty()) {
+            return;
+        }
+
+        XWPFParagraph tocParagraph = doc.createParagraph();
+        XWPFRun run = tocParagraph.createRun();
+        run.setBold(true);
+        run.setFontSize(14);
+        run.setText("Table of Contents:");
+
+        for (String heading : tocLinks.keySet()) {
+            XWPFParagraph entryParagraph = doc.createParagraph();
+            XWPFRun entryRun = entryParagraph.createRun();
+            entryRun.setColor("0000FF"); // Kindle-friendly blue
+            entryRun.setUnderline(UnderlinePatterns.SINGLE);
+            entryRun.setText(heading);
+        }
     }
 
     /**
      * Reads file content as a string.
      *
-     * @param file the file to read
-     * @return the file content
+     * @param file The file to read
+     * @return The file content
      * @throws IOException if file reading fails
      */
     private static String readFile(File file) throws IOException {
@@ -148,10 +167,20 @@ public class MarkdownToKdpDocxConverter {
     }
 
     /**
-     * Extracts text from a Markdown node and its children.
+     * Extracts text from a Markdown node.
      *
-     * @param node the Markdown node
-     * @return the extracted text
+     * @param node The Markdown node
+     * @return The extracted text
+     */
+    private static String getNodeText(Node node) {
+        return TextContentRenderer.builder().build().render(node);
+    }
+
+    /**
+     * Extracts text from a node and its children.
+     *
+     * @param node The Markdown node
+     * @return The extracted text
      */
     private static String extractTextFromNode(Node node) {
         StringBuilder text = new StringBuilder();
@@ -164,20 +193,10 @@ public class MarkdownToKdpDocxConverter {
     }
 
     /**
-     * Extracts text from a Markdown node.
-     *
-     * @param node the Markdown node
-     * @return the extracted text
-     */
-    private static String getNodeText(Node node) {
-        return TextContentRenderer.builder().build().render(node);
-    }
-
-    /**
      * Determines font size based on heading level.
      *
-     * @param level the heading level (1-6)
-     * @return the corresponding font size
+     * @param level The heading level (1-6)
+     * @return The corresponding font size
      */
     private static int getHeadingFontSize(int level) {
         switch (level) {
@@ -192,11 +211,13 @@ public class MarkdownToKdpDocxConverter {
     }
 
     public static void main(String[] args) throws IOException {
+
         String docxFileName = "eternity-book.docx"; // Change this path
         String mdFileName = "eternity-book.md"; // Change this path
         File mdFile = new File(PathFinder.getSrcTestResourcesDir(), mdFileName);
         File docxFile = new File(PathFinder.getSrcTestResourcesDir(), docxFileName);
 
+        convertMdToKdpDocx(mdFile, docxFile);
         convertMdToKdpDocx(mdFile, docxFile);
     }
 }

@@ -1,32 +1,38 @@
 [versions]
-assertj-core-version = "3.26.3"
-commons-text-version = "1.12.0"
-file-worker-version = "17.4"
-gradle-migration-data-version = "2.4"
-gradle-plugin-grgit-version = "5.2.2"
+assertj-core-version = "3.27.3"
+commonmark-version = "0.24.0"
+commons-text-version = "1.13.0"
+docx4j-version = "6.1.2"
+file-worker-version = "19.0"
+flexmark-version = "0.64.8"
+gradle-migration-data-version = "3.0"
+gradle-plugin-grgit-version = "5.3.0"
 gradle-plugin-license-version = "0.16.1"
-gradle-plugin-lombok-version = "8.10"
-gradle-plugin-spotless-version = "7.0.0.BETA2"
-gradle-plugin-version-catalog-update-version = "0.8.4"
-gradle-plugin-versions-version = "0.51.0"
-jobj-core-version = "9"
-junit-jupiter-params-version = "5.11.1"
-junit-jupiter-version = "5.11.1"
-junit-platform-launcher-version = "1.11.1"
-lombok-version = "1.18.34"
+gradle-plugin-lombok-version = "8.12.1"
+gradle-plugin-spotless-version = "7.0.2"
+gradle-plugin-version-catalog-update-version = "0.8.5"
+gradle-plugin-versions-version = "0.52.0"
+jobj-core-version = "9.1"
+junit-jupiter-params-version = "5.12.0-RC2"
+junit-jupiter-version = "5.12.0-RC2"
+junit-platform-launcher-version = "1.12.0-RC2"
+lombok-version = "1.18.36"
 meanbean-version = "3.0.0-M9"
-mockito-core-version = "5.13.0"
-poi-ooxml-version = "5.3.0"
-poi-version = "5.3.0"
-silly-collection-version = "28"
-silly-io-version = "3.1"
+mockito-core-version = "5.15.2"
+poi-ooxml-version = "5.4.0"
+poi-version = "5.4.0"
+silly-collection-version = "28.1"
+silly-io-version = "3.6"
 test-object-version = "9"
 throwable-version = "3"
 
 [libraries]
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-core-version" }
+commonmark = { module = "org.commonmark:commonmark", version.ref = "commonmark-version" }
 commons-text = { module = "org.apache.commons:commons-text", version.ref = "commons-text-version" }
+docx4j = { module = "org.docx4j:docx4j", version.ref = "docx4j-version" }
 file-worker = { module = "io.github.astrapi69:file-worker", version.ref = "file-worker-version" }
+flexmark = { module = "com.vladsch.flexmark:flexmark-all", version.ref = "flexmark-version" }
 gradle-migration-data = { module = "io.github.astrapi69:gradle-migration-data", version.ref = "gradle-migration-data-version" }
 jobj-core = { module = "io.github.astrapi69:jobj-core", version.ref = "jobj-core-version" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter-version" }
@@ -44,10 +50,40 @@ test-object = { module = "io.github.astrapi69:test-object", version.ref = "test-
 throwable = { module = "io.github.astrapi69:throwable", version.ref = "throwable-version" }
 
 [bundles]
+# Dependencies for the annotation processor used during the compilation process
+annotation-processor = [
+    "lombok",
+]
+# Dependencies required only at compile-time and not included in the final artifact
+compile-only = [
+    "lombok",
+]
+# The core dependencies
+core-dependencies = [
+    "jobj-core",
+    "poi",
+    "poi-ooxml",
+]
+# Annotation processor dependencies used specifically for test classes
+test-annotation-processor = [
+    "lombok",
+]
+# Dependencies required only at test compile-time and not included in test runtime
+test-compile-only = [
+    "lombok",
+]
+# Dependencies required only at test runtime, such as test execution platforms
+test-runtime-only = [
+    "junit-platform-launcher",
+]
+# Dependencies required for unit testing
 unit-testing = [
     "assertj-core",
+    "commonmark",
     "commons-text",
+    "docx4j",
     "file-worker",
+    "flexmark",
     "gradle-migration-data",
     "junit-jupiter",
     "junit-jupiter-params",

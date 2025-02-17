@@ -6,6 +6,31 @@ Version 5.2-SNAPSHOT
 
 ## [Unreleased]
 
+### 🚀 Gradle Improvements
+- Refactored repository configuration to use `setName()` and `setUrl()`
+- Moved Java compilation settings to `gradle/java-compile.gradle`
+- Introduced external exclusion lists:
+  - `gradle/list/exclude-license-files.list` (for licensing exclusions)
+  - `gradle/list/exclude-gradle-files.list` (for Gradle file exclusions)
+- Ensured `test` task runs **after** `jar`
+- Improved Gradle publishing configuration with better credential handling
+
+### 📄 Markdown to DOCX Enhancements
+- **Removed** outdated Markdown-to-DOCX converters
+- **Added** `Md2DocxConverter`:
+  - Uses **CommonMark** for Markdown parsing
+  - Generates formatted **DOCX files** with proper headings, lists, and styles
+- **Introduced** `MarkdownToKdpDocxConverter`:
+  - Optimized DOCX output for **Kindle Direct Publishing (KDP)**
+- **Added** `MarkdownToHtmlConverter`:
+  - Uses **Flexmark & JSoup** for **Markdown to HTML** conversion
+- **Unit Tests**:
+  - Added tests for **Markdown to DOCX**
+  - Added tests for **Markdown to HTML**
+
+### 🔄 Dependency Updates
+- **Added:** `jsoup 1.18.3` for HTML processing
+
 ### Changed
 - Upgraded Gradle wrapper from `8.10.2` to `8.13-RC-1`.
 - Updated dependencies:

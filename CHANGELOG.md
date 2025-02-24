@@ -14,6 +14,7 @@ Version 5.2-SNAPSHOT
   - `gradle/list/exclude-gradle-files.list` (for Gradle file exclusions)
 - Ensured `test` task runs **after** `jar`
 - Improved Gradle publishing configuration with better credential handling
+- **Updated Gradle wrapper** from `8.13-RC-1` to `8.13-RC-2`
 
 ### 📄 Markdown to DOCX Enhancements
 - **Removed** outdated Markdown-to-DOCX converters
@@ -24,23 +25,28 @@ Version 5.2-SNAPSHOT
   - Optimized DOCX output for **Kindle Direct Publishing (KDP)**
 - **Added** `MarkdownToHtmlConverter`:
   - Uses **Flexmark & JSoup** for **Markdown to HTML** conversion
+- **Refactored** Markdown-to-DOCX conversion:
+  - Removed `MarkdownToDocxNoFlexmark.java`
+  - Introduced `MarkdownToDocxConverter.java` as a structured replacement
 - **Unit Tests**:
-  - Added tests for **Markdown to DOCX**
-  - Added tests for **Markdown to HTML**
+  - Added **parameterized tests** in `MarkdownToDocxConverterParameterizedTest`
+  - Increased test coverage in `MarkdownToDocxConverterTest`
 
 ### 🔄 Dependency Updates
 - **Added:** `jsoup 1.18.3` for HTML processing
+- - Updated dependencies:
+  - `assertj-core` to `3.27.3`
+  - `commons-text` to `1.13.0`
+  - `file-worker` to `19.0`
+  - `mockito-core` to `5.15.2`
+  - `poi-ooxml` and `poi` to `5.4.0`
+- **Updated:**
+  - `gradle-plugin-lombok` to `8.12.2`
+  - `junit-jupiter` dependencies to `5.12.0`
+- **Introduced** dependency bundles in `dependencies.gradle` to improve structure.
 
-### Changed
-- Upgraded Gradle wrapper from `8.10.2` to `8.13-RC-1`.
-- Updated dependencies:
-    - `assertj-core` to `3.27.3`
-    - `commons-text` to `1.13.0`
-    - `file-worker` to `19.0`
-    - `mockito-core` to `5.15.2`
-    - `poi-ooxml` and `poi` to `5.4.0`
-    - `junit-jupiter` to `5.12.0-RC2`
-- Introduced dependency bundles in `dependencies.gradle` to improve structure.
+### 🔥 Removed
+- Deprecated `MarkdownToDocxNoFlexmark.java`
 
 Version 5.1
 -------------
